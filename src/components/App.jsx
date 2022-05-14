@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import UserContext from './contexts/UserContext';
 import GlobalCSSConfig from './GlobalCSSConfig';
 import ProductsScreen from './ProductsScreen';
+import CartScreen from './CartScreen';
 
 function App() {
     const [token, setToken] = useState('admin');
@@ -15,6 +16,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/products" element={<ProductsScreen />} />
+                        <Route path="/cart" element={<CartScreen />} />
                     </Routes>
                 </BrowserRouter>
             </UserContext.Provider>

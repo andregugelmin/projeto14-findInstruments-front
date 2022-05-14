@@ -1,7 +1,6 @@
 import axios from 'axios';
 import styled from 'styled-components';
 import { useState, useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 
 import UserContext from './contexts/UserContext';
 import ProductBox from './ProductBox';
@@ -24,7 +23,6 @@ function ProductsScreen() {
     useEffect(() => {
         promise.then((response) => {
             const { data } = response;
-            console.log(response);
             setProducts(data.products);
         });
         promise.catch((err) => {
