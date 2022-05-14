@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import useWindowDimensions from './Hooks/windowsDimensions';
 
@@ -8,16 +9,22 @@ function FooterProducts(props) {
         if (props.screen === screen) return 'active-buton';
         else return '';
     }
+
     return (
         <FooterMenu>
-            <div className={`${getClassName('products')}`}>
-                <ion-icon name="home-outline"></ion-icon>
-                {width > 800 ? <p className="menu-text">Home</p> : <></>}
-            </div>
-            <div className={`${getClassName('cart')}`}>
-                <ion-icon name="cart-outline"></ion-icon>
-                {width > 800 ? <p className="menu-text">Cart</p> : <></>}
-            </div>
+            <Link to={`/products`}>
+                <div className={`${getClassName('products')}`}>
+                    <ion-icon name="home-outline"></ion-icon>
+                    {width > 800 ? <p className="menu-text">Home</p> : <></>}
+                </div>
+            </Link>
+            <Link to={`/cart`}>
+                <div className={`${getClassName('cart')}`}>
+                    <ion-icon name="cart-outline"></ion-icon>
+                    {width > 800 ? <p className="menu-text">Cart</p> : <></>}
+                </div>
+            </Link>
+
             <div>
                 <ion-icon name="exit-outline"></ion-icon>
                 {width > 800 ? <p className="menu-text">Logout</p> : <></>}

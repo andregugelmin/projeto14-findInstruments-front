@@ -1,11 +1,56 @@
+import axios from 'axios';
 import styled from 'styled-components';
+import { useState, useContext, useEffect } from 'react';
+
+import UserContext from './contexts/UserContext';
 
 function ProductBox(props) {
+    const { token } = useContext(UserContext);
+
+    const [isAddingToCart, setisAddingToCart] = useState(false);
+
+    const API_URL = 'https://back-findinstruments.herokuapp.com/cart';
+
+    function addProductToCart() {
+        setisAddingToCart(true);
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        const productInfo = {
+            name: props.name,
+            price: props.price,
+            image: props.image,
+        };
+        const promise = axios.post(API_URL, productInfo, config);
+
+        promise.then((response) => {
+            setisAddingToCart(false);
+        });
+        promise.catch((err) => {
+            alert(err.response.data.message);
+            setisAddingToCart(false);
+        });
+    }
+
     return (
         <Box>
-            <div className="top-box">
-                <p className="dollar-sign">R$</p>
-                <p className="product-price">{props.price}</p>
+            <div>
+                <div className="top-box">
+                    <p className="dollar-sign">R$</p>
+                    <p className="product-price">{props.price}</p>
+                </div>
+                {isAddingToCart ? (
+                    <ion-icon name="cart-outline"></ion-icon>
+                ) : (
+                    <ion-icon
+                        name="cart-outline"
+                        onClick={addProductToCart}
+                    ></ion-icon>
+                )}
             </div>
             <img src={props.image} alt={props.name} />
             <p className="product-name">{props.name}</p>
