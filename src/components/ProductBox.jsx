@@ -29,6 +29,7 @@ function ProductBox(props) {
 
         promise.then((response) => {
             setisAddingToCart(false);
+            alert(productInfo.name + ' adcionado ao carrinho');
         });
         promise.catch((err) => {
             alert(err.response.data.message);
@@ -38,11 +39,12 @@ function ProductBox(props) {
 
     return (
         <Box>
-            <div>
-                <div className="top-box">
+            <div className="top-box">
+                <div className="price-text">
                     <p className="dollar-sign">R$</p>
                     <p className="product-price">{props.price}</p>
                 </div>
+
                 {isAddingToCart ? (
                     <ion-icon name="cart-outline"></ion-icon>
                 ) : (
@@ -52,6 +54,7 @@ function ProductBox(props) {
                     ></ion-icon>
                 )}
             </div>
+
             <img src={props.image} alt={props.name} />
             <p className="product-name">{props.name}</p>
         </Box>
@@ -75,8 +78,13 @@ const Box = styled.div`
         margin-left: 10px;
     }
     .top-box {
-        margin-top: 15px;
+        margin-top: 10px;
         display: flex;
+        justify-content: space-between;
+    }
+    .price-text {
+        display: flex;
+        margin-top: 7px;
     }
 
     .dollar-sign {
@@ -87,6 +95,11 @@ const Box = styled.div`
         color: #ffffff;
         font-weight: 500;
         margin-left: 3px;
+    }
+
+    ion-icon {
+        font-size: 30px;
+        margin-right: 10px;
     }
 
     img {

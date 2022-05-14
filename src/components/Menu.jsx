@@ -12,13 +12,13 @@ function FooterProducts(props) {
 
     return (
         <FooterMenu>
-            <Link to={`/products`}>
+            <Link style={{ textDecoration: 'none' }} to={`/products`}>
                 <div className={`${getClassName('products')}`}>
                     <ion-icon name="home-outline"></ion-icon>
                     {width > 800 ? <p className="menu-text">Home</p> : <></>}
                 </div>
             </Link>
-            <Link to={`/cart`}>
+            <Link style={{ textDecoration: 'none' }} to={`/cart`}>
                 <div className={`${getClassName('cart')}`}>
                     <ion-icon name="cart-outline"></ion-icon>
                     {width > 800 ? <p className="menu-text">Cart</p> : <></>}

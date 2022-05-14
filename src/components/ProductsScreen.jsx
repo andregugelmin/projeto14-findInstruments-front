@@ -58,6 +58,7 @@ const Products = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
     margin-bottom: 100px;
     header {
         font-size: 36px;
@@ -71,11 +72,12 @@ const Products = styled.div`
     .products {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        margin-left: 20px;
     }
 
     @media (min-width: 800px) {
         padding-left: 170px;
+        margin-left: 40px;
     }
 `;
 
