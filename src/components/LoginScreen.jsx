@@ -8,8 +8,8 @@ import UserContext from "./contexts/UserContext"
 import logo from "./../assets/images/logoFindInstruments.svg"
 
 export default function LoginScreen() {
-    const {userInfo, setUserInfo} = useContext(UserContext);
-    const {email, name, password} = userInfo;
+    const {userInfo} = useContext(UserContext);
+    const {email, password} = userInfo;
     const navigate = useNavigate();
 
     function userLogin() {
@@ -24,7 +24,10 @@ export default function LoginScreen() {
             navigate('/')
         })
         request.catch((error)=>{
-            console.log(error.response.data.message)
+            const errorsArr = error.response.data;
+            errorsArr.forEach((error)=>{
+                alert(error.message);
+            })
         })
     }
 

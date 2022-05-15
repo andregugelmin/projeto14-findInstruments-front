@@ -27,7 +27,10 @@ export default function SignUpScreen() {
 
         })
         request.catch((error)=>{
-            console.log(error.response.data.message)
+            const errorsArr = error.response.data;
+            errorsArr.forEach((error)=>{
+                alert(error.message);
+            })
         })
     }
 
