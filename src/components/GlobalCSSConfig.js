@@ -51,10 +51,18 @@ const GlobalCSSConfig = createGlobalStyle`
     }
     * {
         box-sizing: border-box;
+        --main-color: #8C11BE;
+        --button-color: #ffd500;
+        --white-color: #FFF;
+        --black-color: #000;
+        font-family: 'Raleway', sans-serif;
+        scrollbar-width: none; /*FireFox*/
     }
     body::-webkit-scrollbar {
         display: none;
     }
+
+    
 `;
 
 export default GlobalCSSConfig;
