@@ -60,7 +60,7 @@ function CartScreen() {
     function calcTotalPrice() {
         let price = 0;
         products.forEach((product) => (price += parseFloat(product.price)));
-        setTotalPrice(price);
+        setTotalPrice(price.toFixed(2));
     }
 
     function confirmPurchase() {
