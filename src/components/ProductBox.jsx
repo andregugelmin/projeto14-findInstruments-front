@@ -39,79 +39,73 @@ function ProductBox(props) {
 
     return (
         <Box>
-            <div className="top-box">
-                <div className="price-text">
-                    <p className="dollar-sign">R$</p>
-                    <p className="product-price">{props.price}</p>
-                </div>
+            {isAddingToCart ? (
+                <ion-icon name="cart-outline"></ion-icon>
+            ) : (
+                <ion-icon
+                    name="cart-outline"
+                    onClick={addProductToCart}
+                ></ion-icon>
+                )
+            }
 
-                {isAddingToCart ? (
-                    <ion-icon name="cart-outline"></ion-icon>
-                ) : (
-                    <ion-icon
-                        name="cart-outline"
-                        onClick={addProductToCart}
-                    ></ion-icon>
-                )}
+            <div className="img-container">
+                <img src={props.image} alt={props.name} />
             </div>
+            <div className="stars">
+            </div>
+            <h2>{props.name}</h2>
+            <p>R$ {props.price}</p>
 
-            <img src={props.image} alt={props.name} />
-            <p className="product-name">{props.name}</p>
+
+
         </Box>
     );
 }
 
 const Box = styled.div`
+    width: calc(50% - 10px);
+    height: 214px;
+    max-width: 200px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    background: #44413b;
-    width: 160px;
-    height: auto;
-    min-height: 200px;
-    border-radius: 10px;
-    margin: 0 12px 25px 12px;
-    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    justify-content: flex-end;
+    -webkit-box-shadow: 1px -2px 5px 1px rgba(0,0,0,0.4); 
+    box-shadow: 1px -2px 5px 1px rgba(0,0,0,0.4);
+    padding: 5px;
+    border-radius: 8px;
 
-    p {
-        margin-bottom: 20px;
-        margin-left: 10px;
-    }
-    .top-box {
-        margin-top: 10px;
+    .img-container {
+        width: 100%;
+        max-height: 112px;
         display: flex;
-        justify-content: space-between;
-    }
-    .price-text {
-        display: flex;
-        margin-top: 7px;
-    }
-
-    .dollar-sign {
-        text-shadow: 0 0 3px #dbae44;
-        color: #e4ba57;
-    }
-    .product-price {
-        color: #ffffff;
-        font-weight: 500;
-        margin-left: 3px;
-    }
-
-    ion-icon {
-        font-size: 30px;
-        margin-right: 10px;
+        justify-content: center;
+        align-items: center;
     }
 
     img {
         width: 100%;
-        max-height: 100px;
-        height: auto;
+        max-height: 112px;
+        margin-bottom: 3px;
     }
 
-    .product-name {
-        font-size: 16px;
-        margin-top: 12px;
-        color: #ffffff;
+    h2, p {
+        margin-top: 4px;
+    } 
+
+    p  {
+        display: block;
+        position: relative;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    ion-icon {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 20px;
     }
 
     @media (min-width: 600px) {

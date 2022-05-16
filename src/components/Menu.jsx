@@ -12,7 +12,7 @@ function FooterProducts(props) {
 
     return (
         <FooterMenu>
-            <Link style={{ textDecoration: 'none' }} to={`/products`}>
+            <Link style={{ textDecoration: 'none' }} to={`/`}>
                 <div className={`${getClassName('products')}`}>
                     <ion-icon name="home-outline"></ion-icon>
                     {width > 800 ? <p className="menu-text">Home</p> : <></>}
