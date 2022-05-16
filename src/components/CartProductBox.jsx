@@ -6,12 +6,10 @@ import UserContext from './contexts/UserContext';
 import useWindowDimensions from './Hooks/windowsDimensions';
 
 function CartProductBox(props) {
-    const { token } = useContext(UserContext);
+    const { userInfo } = useContext(UserContext);
     const { height, width } = useWindowDimensions();
 
     const [isClicked, setIsClicked] = useState(false);
-    const [isRemovingFromCart, setIsRemovingFromCart] = useState(false);
-    const [deleted, setDeleted] = useState(false);
 
     const API_URL = `https://back-findinstruments.herokuapp.com/cart/${props.id}`;
 
@@ -22,32 +20,29 @@ function CartProductBox(props) {
     function removeItemFromCart() {
         const config = {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${userInfo.token}`,
             },
         };
-        setIsRemovingFromCart(true);
         const promise = axios.delete(API_URL, config);
         promise.then((response) => {
             console.log(response);
-            setIsRemovingFromCart(false);
             props.reloadProducts();
         });
         promise.catch((err) => {
             console.log(err.response.data.message);
-            setIsRemovingFromCart(false);
         });
     }
 
-    return deleted ? (
-        <></>
-    ) : (
+    return (
         <Container>
             <div className="box" onClick={toggleClick}>
                 <div className="top-box">
                     <p className="product-name">{props.name}</p>
                     <div className="price-box">
                         <p className="dollar-sign">R$</p>
-                        <p className="product-price">{props.price}</p>
+                        <p className="product-price">
+                            {props.price.replace('.', ',')}
+                        </p>
                     </div>
                 </div>
                 {width < 400 ? (

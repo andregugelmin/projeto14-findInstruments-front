@@ -1,54 +1,86 @@
-import styled from "styled-components"
-import { useContext } from "react";
-import axios from "axios";
-import { Link, useNavigate} from "react-router-dom";
+import styled from 'styled-components';
+import { useContext, useState } from 'react';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 
-import Input from "./Input"
-import UserContext from "./contexts/UserContext"
-import logo from "./../assets/images/logoFindInstruments.svg"
+import Input from './Input';
+import UserContext from './contexts/UserContext';
+import logo from './../assets/images/logoFindInstruments.svg';
 
 export default function LoginScreen() {
-    const {userInfo} = useContext(UserContext);
-    const {email, password} = userInfo;
+    const { userInfo, setUserInfo } = useContext(UserContext);
+    let { email, password } = userInfo;
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLogingIn, setIsLogingIn] = useState(true);
     const navigate = useNavigate();
 
-    function userLogin() {
-        const URL = `https://back-findinstruments.herokuapp.com/login`
-        const loginObject= {email, password}
-        
-        const request = axios.post(URL, loginObject);
+    const localUserObj = localStorage.getItem('findInstrumentsUserData');
 
-        request.then((response)=>{
-            const loginResponse = response.data;
-            console.log(loginResponse);
-            navigate('/')
-        })
-        request.catch((error)=>{
-            const errorsArr = error.response.data;
-            errorsArr.forEach((error)=>{
-                alert(error.message);
-            })
-        })
+    if (localUserObj) {
+        const userObjDeserialized = JSON.parse(localUserObj);
+        email = userObjDeserialized.email;
+        password = userObjDeserialized.password;
+        userLogin();
+    } else if (isLoading) {
+        setIsLoading(false);
+        setIsLogingIn(false);
     }
 
-    return (
+    function userLogin() {
+        const URL = `https://back-findinstruments.herokuapp.com/login`;
+        const loginObject = { email, password };
+
+        const request = axios.post(URL, loginObject);
+
+        request.then((response) => {
+            const loginResponse = response.data;
+            saveUserObjLocally(loginObject);
+            setUserInfo(loginResponse);
+            navigate('/');
+        });
+        request.catch((error) => {
+            const errorsArr = error.response.data;
+            errorsArr.forEach((error) => {
+                alert(error.message);
+            });
+            setIsLogingIn(false);
+        });
+    }
+
+    function saveUserObjLocally(userObj) {
+        const userObjSerialized = JSON.stringify(userObj);
+        localStorage.setItem('findInstrumentsUserData', userObjSerialized);
+    }
+
+    return !isLogingIn ? (
         <LoginPage>
             <LoginContainer>
-                <LogoContainer><img src={logo} alt="Find Instruments Logo" /></LogoContainer>
+                <LogoContainer>
+                    <img src={logo} alt="Find Instruments Logo" />
+                </LogoContainer>
                 <h1>findInstruments</h1>
-                    <Input type = {"email"} id = "email" placeholder = "email" />
-                    <Input type = {"password"} id = "password" placeholder = "senha" />
-                    <ButtonContainer>
-                        <button onClick={()=>{
+                <Input type={'email'} id="email" placeholder="email" />
+                <Input type={'password'} id="password" placeholder="senha" />
+                <ButtonContainer>
+                    <button
+                        onClick={() => {
                             userLogin();
-                        }}>Entrar</button>
-                    </ButtonContainer>
-                    <Link to="/signup">Primeira vez? Cadastre-se</Link>
+                        }}
+                    >
+                        Entrar
+                    </button>
+                </ButtonContainer>
+                <Link to="/signup">Primeira vez? Cadastre-se</Link>
             </LoginContainer>
         </LoginPage>
-    )
+    ) : (
+        <LoginPage>
+            <LogoContainer>
+                <img src={logo} alt="Find Instruments Logo" />
+            </LogoContainer>
+        </LoginPage>
+    );
 }
-
 
 const LoginPage = styled.section`
     width: 100%;
@@ -59,7 +91,7 @@ const LoginPage = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-`
+`;
 
 const LoginContainer = styled.div`
     width: 100%;
@@ -77,20 +109,19 @@ const LoginContainer = styled.div`
         margin-bottom: 24px;
     }
 
-    a{
+    a {
         width: fit-content;
         display: block;
         margin: 25px auto;
         color: var(--white-color);
         text-decoration: none;
     }
-`
-
+`;
 
 const LogoContainer = styled.div`
     width: 200px;
     margin: auto;
-`
+`;
 
 const ButtonContainer = styled.div`
     width: 90%;
@@ -108,4 +139,4 @@ const ButtonContainer = styled.div`
         color: var(--black-color);
         font-weight: 700;
     }
-`
+`;

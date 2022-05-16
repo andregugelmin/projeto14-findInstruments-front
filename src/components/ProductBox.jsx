@@ -1,22 +1,26 @@
 import axios from 'axios';
 import styled from 'styled-components';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 
 import UserContext from './contexts/UserContext';
 
 function ProductBox(props) {
-    const { token } = useContext(UserContext);
+    const { userInfo } = useContext(UserContext);
 
     const [isAddingToCart, setisAddingToCart] = useState(false);
 
     const API_URL = 'https://back-findinstruments.herokuapp.com/cart';
 
     function addProductToCart() {
+        if (!userInfo.token) {
+            alert('Please login to your account');
+            return;
+        }
         setisAddingToCart(true);
 
         const config = {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${userInfo.token}`,
             },
         };
 
@@ -46,19 +50,14 @@ function ProductBox(props) {
                     name="cart-outline"
                     onClick={addProductToCart}
                 ></ion-icon>
-                )
-            }
+            )}
 
             <div className="img-container">
                 <img src={props.image} alt={props.name} />
             </div>
-            <div className="stars">
-            </div>
+            <div className="stars"></div>
             <h2>{props.name}</h2>
-            <p>R$ {props.price}</p>
-
-
-
+            <p>R$ {props.price.replace('.', ',')}</p>
         </Box>
     );
 }
@@ -71,8 +70,8 @@ const Box = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    -webkit-box-shadow: 1px -2px 5px 1px rgba(0,0,0,0.4); 
-    box-shadow: 1px -2px 5px 1px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 1px -2px 5px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 1px -2px 5px 1px rgba(0, 0, 0, 0.4);
     padding: 5px;
     border-radius: 8px;
 
@@ -90,11 +89,12 @@ const Box = styled.div`
         margin-bottom: 3px;
     }
 
-    h2, p {
+    h2,
+    p {
         margin-top: 4px;
-    } 
+    }
 
-    p  {
+    p {
         display: block;
         position: relative;
         margin-top: 15px;
